@@ -35,6 +35,26 @@ const appRouter = (app) => {
       }
     })();
   });
+  app.post("/gradients", (req, res) => {
+    const generatedId = uuidv4();
+    (async () => {
+      try {
+        await db
+          .collection("gradients")
+          .doc("/" + generatedId + "/")
+          .create({
+            name: req.body.name,
+            css: req.body.css,
+            tailwind: req.body.tailwind,
+            colors: req.body.colors,
+          });
+        return res.status(200).send();
+      } catch (error) {
+        console.log(error);
+        return res.status(500).send(error);
+      }
+    })();
+  });
 };
 
 module.exports = appRouter;
