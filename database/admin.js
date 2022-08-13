@@ -1,8 +1,7 @@
-var admin = require("firebase-admin");
+const admin = require("firebase-admin");
+require("dotenv").config();
 
-var serviceAccount = require("../firebase-permissions.json");
-
-// Initializing the Firebase app to use in the API.
+const serviceAccount = JSON.parse(process.env.FIREBASE_CREDS);
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
