@@ -1,18 +1,35 @@
 {
   "name": "react-gradients-api",
   "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
+  "description": "An API containing a collection of gradients and their CSS codes, TailwindCSS codes and color codes. Built for the React Gradients play in ReactPlay.io",
+  "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ammaaraslam/react-gradients-api.git"
   },
-  "author": "Ammaar Aslam",
+  "keywords": [
+    "api",
+    "node",
+    "express",
+    "gradients",
+    "firebase",
+    "firestore",
+    "database"
+  ],
+  "author": {
+    "name": "Ammaar Aslam",
+    "email": "ammaaraslam7@gmail.com",
+    "url": "https://twitter.com/itsammaar_7"
+  },
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ammaaraslam/react-gradients-api/issues"
+  },
+  "homepage": "https://github.com/ammaaraslam/react-gradients-api#readme",
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
