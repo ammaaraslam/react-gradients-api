@@ -1,13 +1,15 @@
 // Main file to serve the API.
 const express = require("express");
-const app = express();
+const bodyParser = require("body-parser");
+const routes = require("./route");
 
+const app = express();
 const port = 3001;
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
+routes(app);
 app.listen(port, () => {
-  console.log("listening on port %s...", { port });
+  console.log("listening on port %s...", port);
 });
