@@ -2,15 +2,19 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const routes = require("./routes");
-const fs = require("fs");
 
+// initializing app
 const app = express();
-const port = 3001;
+// port
+const port = 8080;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-routes(app, fs);
+// listen different routes/endpoints
+routes(app);
+
+// start the API
 app.listen(port, () => {
   console.log("listening on port %s...", port);
 });
