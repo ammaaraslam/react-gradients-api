@@ -1,52 +1,59 @@
 // File to define the different routes/endpoints.
-const appRouter = (app, fs) => {
-  const gradients = "./gradients.json";
 
+const { db } = require("./database/admin");
+const { v4: uuidv4 } = require("uuid");
+
+const appRouter = (app) => {
   // default route
   app.get("/", (req, res) => {
     res.send("welcome to the react-gradients-api");
   });
 
-  // Helper function to read from the json file.
-  const readFile = (
-    callback,
-    returnJson = false,
-    filePath = dataPath,
-    encoding = "utf8"
-  ) => {
-    fs.readFile(filePath, encoding, (err, data) => {
-      if (err) {
-        throw err;
-      }
-
-      callback(returnJson ? JSON.parse(data) : data);
-    });
-  };
-
-  // Helper function to write to the json file.
-  const writeFile = (
-    fileData,
-    callback,
-    filePath = dataPath,
-    encoding = "utf8"
-  ) => {
-    fs.writeFile(filePath, fileData, encoding, (err) => {
-      if (err) {
-        throw err;
-      }
-
-      callback();
-    });
-  };
-
+  // Function to return all gradients at /gradients with a request method of GET.
   app.get("/gradients", (req, res) => {
-    fs.readFile(gradients, "utf8", (err, data) => {
-      if (err) {
-        throw err;
+    (async () => {
+      try {
+        let query = db.collection("gradients");
+        let response = [];
+        await query.get().then((querySnapshot) => {
+          let docs = querySnapshot.docs;
+          for (let doc of docs) {
+            const selectedItem = {
+              id: doc.id,
+              name: doc.data().name,
+              css: doc.data().css,
+              tailwind: doc.data().tailwind,
+              colors: doc.data().colors,
+            };
+            response.push(selectedItem);
+          }
+        });
+        return res.status(200).send(response);
+      } catch (error) {
+        console.log(error);
+        return res.status(500).send(error);
       }
-
-      res.send(JSON.parse(data));
-    });
+    })();
+  });
+  app.post("/gradients", (req, res) => {
+    const generatedId = uuidv4();
+    (async () => {
+      try {
+        await db
+          .collection("gradients")
+          .doc("/" + generatedId + "/")
+          .create({
+            name: req.body.name,
+            css: req.body.css,
+            tailwind: req.body.tailwind,
+            colors: req.body.colors,
+          });
+        return res.status(200).send();
+      } catch (error) {
+        console.log(error);
+        return res.status(500).send(error);
+      }
+    })();
   });
 };
 
