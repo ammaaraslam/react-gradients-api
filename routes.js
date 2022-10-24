@@ -6,12 +6,12 @@ const { v4: uuidv4 } = require("uuid");
 // Function containing all API routes
 const appRouter = (app) => {
   // Default route - homepage
-  app.get("/", (req, res) => {
-    res.send("welcome to react-gradients-api");
+  app.get("/", (req, res, next) => {
+    res.json("welcome to react-gradients-api");
   });
 
   // Function to return all gradients at /gradients with a request method of GET.
-  app.get("/gradients", (req, res) => {
+  app.get("/gradients", (req, res, next) => {
     // Connecting and retrieving all gradients from the database.
     (async () => {
       try {
@@ -30,16 +30,16 @@ const appRouter = (app) => {
             response.push(selectedItem);
           }
         });
-        return res.status(200).send(response);
+        return res.status(200).json(response);
       } catch (error) {
         console.log(error);
-        return res.status(500).send(error);
+        return res.status(500).json(error);
       }
     })();
   });
 
   // Function to add a gradient to the database at the /gradients endpoint with a request method of POST.
-  app.post("/gradients", (req, res) => {
+  app.post("/gradients", (req, res, next) => {
     // Constant that holds a random and unique UUID every time a POST request is made.
     const generatedId = uuidv4();
 
@@ -55,10 +55,10 @@ const appRouter = (app) => {
             tailwind: req.body.tailwind,
             colors: req.body.colors,
           });
-        return res.status(200).send();
+        return res.status(200).json();
       } catch (error) {
         console.log(error);
-        return res.status(500).send(error);
+        return res.status(500).json(error);
       }
     })();
   });
